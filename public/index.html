@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BATDMS - Document Management System</title>
+  <meta name="description"
+    content="BATDMS is a secure, enterprise-grade document management system for project-based file organization, versioning, and audit logging.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark-theme">
+
+  <!-- ═══ LOGIN PAGE ══════════════════════════════════════════════════════════ -->
+  <div id="login-page" class="login-page">
+    <div class="login-bg-grid"></div>
+    <div class="login-card">
+      <div class="login-brand">
+        <svg class="login-brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <span>BATDMS</span>
+      </div>
+      <h1 class="login-title">Welcome Back</h1>
+      <p class="login-subtitle">Sign in to access your document management system</p>
+
+      <div id="login-error" class="login-error hidden"></div>
+
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <div class="input-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <input type="text" id="login-username" placeholder="Enter your username" required autocomplete="username">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <div class="input-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <input type="password" id="login-password" placeholder="Enter your password" required
+              autocomplete="current-password">
+          </div>
+        </div>
+        <button type="submit" id="login-btn" class="btn btn-primary btn-full">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+            <polyline points="10 17 15 12 10 7" />
+            <line x1="15" y1="12" x2="3" y2="12" />
+          </svg>
+          Sign In
+        </button>
+      </form>
+
+      <div class="login-hint">
+        <p>Default credentials:</p>
+        <div class="hint-grid">
+          <span class="hint-cred"><strong>admin</strong> / admin123</span>
+          <span class="hint-cred"><strong>editor1</strong> / editor123</span>
+          <span class="hint-cred"><strong>viewer1</strong> / viewer123</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN APP ════════════════════════════════════════════════════════════ -->
+  <div id="app-page" class="app-container hidden">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <span class="brand-text">BATDMS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="explorer" id="nav-explorer">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+          </svg>
+          <span>Explorer</span>
+        </button>
+        <button class="nav-item" data-tab="upload" id="nav-upload">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 16 12 12 8 16" />
+            <line x1="12" y1="12" x2="12" y2="21" />
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+          </svg>
+          <span>Upload Document</span>
+        </button>
+        <button class="nav-item" data-tab="library" id="nav-library">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <span>Library &amp; Search</span>
+        </button>
+        <button class="nav-item" data-tab="users" id="nav-users">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          <span>Manage Users</span>
+        </button>
+        <button class="nav-item" data-tab="audit" id="nav-audit">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+          </svg>
+          <span>Audit Logs</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-user">
+        <div class="user-avatar" id="sidebar-avatar">AU</div>
+        <div class="user-info">
+          <span class="user-name" id="sidebar-name">User</span>
+          <span class="user-role" id="sidebar-role">Role</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="header-title-wrapper">
+          <h1 id="page-title">Project Explorer</h1>
+          <p id="page-subtitle" class="text-secondary">Manage and organize system documents</p>
+        </div>
+        <div class="header-actions">
+          <div class="role-badge" id="header-role-badge">admin</div>
+          <button id="theme-toggle" class="header-btn" title="Toggle Theme">
+            <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+          <button id="logout-btn" class="header-btn" title="Logout">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Stats Ribbon -->
+      <div class="stats-ribbon">
+        <div class="stat-card">
+          <div class="stat-icon-wrapper p-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Total Projects</span>
+            <span id="stat-projects-count" class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrapper p-purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Total Documents</span>
+            <span id="stat-documents-count" class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrapper p-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Active Users</span>
+            <span id="stat-users-count" class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrapper p-yellow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <ellipse cx="12" cy="5" rx="9" ry="3" />
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+              <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
+            </svg>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Storage Used</span>
+            <span id="stat-storage-size" class="stat-value">0 KB</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EXPLORER TAB ──────────────────────────────────────────────────── -->
+      <section id="content-explorer" class="tab-content active">
+        <div class="explorer-grid">
+          <!-- Tree Panel -->
+          <div class="card explorer-sidebar-card">
+            <div class="card-header">
+              <h3>Project Tree</h3>
+              <button id="btn-add-project" class="btn btn-sm btn-primary-outline" title="New Project">
+                <svg class="btn-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                New Project
+              </button>
+            </div>
+            <div class="card-body">
+              <div id="project-tree-container" class="tree-root"></div>
+            </div>
+          </div>
+
+          <!-- Details Panel -->
+          <div class="card explorer-details-card">
+            <div class="card-header">
+              <div class="breadcrumbs" id="explorer-breadcrumbs">
+                <span class="breadcrumb-item active">Root</span>
+              </div>
+              <div class="header-action-group">
+                <button id="btn-add-folder" class="btn btn-sm btn-secondary-outline" disabled>
+                  <svg class="btn-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  New Folder
+                </button>
+                <button id="btn-upload-direct" class="btn btn-sm btn-primary" disabled>
+                  <svg class="btn-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 16 12 12 8 16" />
+                    <line x1="12" y1="12" x2="12" y2="21" />
+                  </svg>
+                  Upload Here
+                </button>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div id="explorer-placeholder" class="placeholder-container">
+                <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                </svg>
+                <h4>Select a Project or Folder</h4>
+                <p class="text-secondary">Click items in the tree to explore, create folders, or upload documents.</p>
+              </div>
+              <div id="explorer-content" class="explorer-inner-content hidden">
+                <div class="section-title-bar">Folders</div>
+                <div class="folders-grid" id="explorer-folders-list"></div>
+                <div class="section-title-bar">Documents</div>
+                <div class="documents-grid" id="explorer-documents-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── UPLOAD TAB ───────────────────────────────────────────────────── -->
+      <section id="content-upload" class="tab-content">
+        <div class="upload-container">
+          <div class="card">
+            <div class="card-header">
+              <h3>Document Upload Wizard</h3>
+              <span class="badge badge-primary">3-Step Process</span>
+            </div>
+            <div class="card-body">
+              <form id="upload-form" class="upload-form-grid">
+                <div class="form-section">
+                  <h4 class="form-section-title"><span class="step-num">1</span> Destination Location</h4>
+                  <div class="form-group-row">
+                    <div class="form-group">
+                      <label for="upload-project">Select Project <span class="required">*</span></label>
+                      <select id="upload-project" required>
+                        <option value="">-- Choose Project --</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="upload-folder">Select Folder <span class="required">*</span></label>
+                      <select id="upload-folder" required disabled>
+                        <option value="">-- Choose Folder --</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <h4 class="form-section-title"><span class="step-num">2</span> File Selection</h4>
+                  <div class="form-group">
+                    <div class="drop-zone" id="drop-zone">
+                      <svg class="drop-zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <polyline points="16 16 12 12 8 16" />
+                        <line x1="12" y1="12" x2="12" y2="21" />
+                        <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+                      </svg>
+                      <span class="drop-zone-text">Drag &amp; drop or <span class="browse-link">browse
+                          files</span></span>
+                      <span class="drop-zone-filename hidden" id="drop-zone-filename"></span>
+                      <input type="file" id="file-input" class="hidden">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <h4 class="form-section-title"><span class="step-num">3</span> Metadata</h4>
+                  <div class="form-group-row">
+                    <div class="form-group">
+                      <label for="upload-category">Category</label>
+                      <select id="upload-category">
+                        <option value="Technical">Technical</option>
+                        <option value="Design">Design</option>
+                        <option value="Requirements">Requirements</option>
+                        <option value="Deliverables">Deliverables</option>
+                        <option value="Administrative">Administrative</option>
+                        <option value="Legal">Legal</option>
+                        <option value="Financial">Financial</option>
+                        <option value="Uncategorized">Uncategorized</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="upload-tags">Tags (comma-separated)</label>
+                      <input type="text" id="upload-tags" placeholder="e.g. draft, v1, srs">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="upload-description">Description</label>
+                    <textarea id="upload-description" rows="3" placeholder="Enter document description..."></textarea>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" id="btn-submit-upload" class="btn btn-primary btn-lg">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="16 16 12 12 8 16" />
+                      <line x1="12" y1="12" x2="12" y2="21" />
+                      <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+                    </svg>
+                    Upload &amp; Process Document
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Process Timeline Card -->
+          <div class="card status-card hidden" id="upload-process-card">
+            <div class="card-header">
+              <h3>Processing Pipeline</h3>
+            </div>
+            <div class="card-body">
+              <div class="timeline">
+                <div class="timeline-item" id="step-uploading">
+                  <div class="timeline-indicator">
+                    <span class="spinner hidden"></span>
+                    <svg class="check-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div class="timeline-content">
+                    <h5>Uploading Document</h5>
+                    <p class="text-secondary">Transferring file to secure storage...</p>
+                    <div class="progress-bar-container">
+                      <div class="progress-bar-fill" id="upload-progress-fill"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="timeline-item" id="step-version">
+                  <div class="timeline-indicator">
+                    <span class="spinner hidden"></span>
+                    <svg class="check-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div class="timeline-content">
+                    <h5>Version Control</h5>
+                    <p class="text-secondary">Assigned version: <span id="lbl-gen-version"
+                        class="glowing-text">...</span></p>
+                  </div>
+                </div>
+                <div class="timeline-item" id="step-indexing">
+                  <div class="timeline-indicator">
+                    <span class="spinner hidden"></span>
+                    <svg class="check-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div class="timeline-content">
+                    <h5>Indexing for Search</h5>
+                    <p class="text-secondary">Updating metadata and tag indices...</p>
+                  </div>
+                </div>
+                <div class="timeline-item" id="step-completion">
+                  <div class="timeline-indicator">
+                    <span class="spinner hidden"></span>
+                    <svg class="check-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div class="timeline-content">
+                    <h5>Audit Log Created</h5>
+                    <p class="text-secondary">Document available for view &amp; download.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── LIBRARY TAB ──────────────────────────────────────────────────── -->
+      <section id="content-library" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>Document Library</h3>
+            <div class="library-search-wrapper">
+              <input type="text" id="lib-search" placeholder="Search by name, tags, category...">
+              <select id="lib-filter-project">
+                <option value="">All Projects</option>
+              </select>
+              <select id="lib-filter-category">
+                <option value="">All Categories</option>
+                <option>Technical</option>
+                <option>Design</option>
+                <option>Requirements</option>
+                <option>Deliverables</option>
+                <option>Administrative</option>
+                <option>Legal</option>
+                <option>Financial</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-container">
+              <table class="data-table" id="library-table">
+                <thead>
+                  <tr>
+                    <th>Document</th>
+                    <th>Project / Folder</th>
+                    <th>Version</th>
+                    <th>Category</th>
+                    <th>Tags</th>
+                    <th>Size</th>
+                    <th>Uploaded</th>
+                    <th>By</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="library-tbody"></tbody>
+              </table>
+            </div>
+            <div id="library-empty" class="placeholder-container p-5 hidden">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <h4>No Documents Found</h4>
+              <p class="text-secondary">Try adjusting your search or filters.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── USERS TAB ────────────────────────────────────────────────────── -->
+      <section id="content-users" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>User Management</h3>
+            <button id="btn-add-user" class="btn btn-sm btn-primary">
+              <svg class="btn-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add User
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div id="users-access-denied" class="placeholder-container hidden">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
+              </svg>
+              <h4>Access Restricted</h4>
+              <p class="text-secondary">Only administrators can manage users.</p>
+            </div>
+            <div class="table-container" id="users-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── AUDIT LOGS TAB ───────────────────────────────────────────────── -->
+      <section id="content-audit" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>Audit Log</h3>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <input type="text" id="audit-search" placeholder="Search logs..." style="padding:8px 14px;width:220px;">
+              <span class="badge badge-secondary" id="badge-logs-count">0 entries</span>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-logs-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ═══ MODALS ═══════════════════════════════════════════════════════════ -->
+
+  <!-- Document Details Modal -->
+  <div class="modal-overlay hidden" id="doc-modal">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <h3 id="doc-modal-title">Document Properties</h3>
+        <div class="modal-header-actions">
+          <button class="btn btn-sm btn-secondary-outline" id="btn-open-newtab-modal" title="Open in New Tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:5px;vertical-align:middle"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open
+          </button>
+          <button class="btn btn-sm btn-primary-outline" id="btn-download-modal" title="Download Document">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:5px;vertical-align:middle"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+          <button class="modal-close" id="doc-modal-close">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body doc-split-layout">
+        <!-- Preview Panel -->
+        <div class="doc-preview-panel">
+          <div class="preview-header">Document Preview</div>
+          <div class="preview-body" id="doc-preview-body">
+            <div class="preview-placeholder">Loading preview...</div>
+          </div>
+        </div>
+
+        <!-- Info/Form Panel -->
+        <div class="doc-info-panel">
+          <form id="edit-doc-form">
+            <input type="hidden" id="edit-doc-id">
+            <div class="doc-meta-info-grid">
+              <div class="meta-item"><span class="meta-label">File Name</span><span class="meta-val"
+                  id="doc-meta-name">—</span></div>
+              <div class="meta-item"><span class="meta-label">Location</span><span class="meta-val"
+                  id="doc-meta-location">—</span></div>
+              <div class="meta-item"><span class="meta-label">Version</span><span class="meta-val badge badge-secondary"
+                  id="doc-meta-version">—</span></div>
+              <div class="meta-item"><span class="meta-label">Size</span><span class="meta-val"
+                  id="doc-meta-size">—</span></div>
+              <div class="meta-item"><span class="meta-label">Uploaded By</span><span class="meta-val"
+                  id="doc-meta-uploader">—</span></div>
+              <div class="meta-item"><span class="meta-label">Uploaded At</span><span class="meta-val"
+                  id="doc-meta-date">—</span></div>
+            </div>
+            <div class="form-group">
+              <label for="edit-category">Category</label>
+              <select id="edit-category">
+                <option>Technical</option>
+                <option>Design</option>
+                <option>Requirements</option>
+                <option>Deliverables</option>
+                <option>Administrative</option>
+                <option>Legal</option>
+                <option>Financial</option>
+                <option>Uncategorized</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-tags">Tags (comma-separated)</label>
+              <input type="text" id="edit-tags">
+            </div>
+            <div class="form-group">
+              <label for="edit-description">Description</label>
+              <textarea id="edit-description" rows="3"></textarea>
+            </div>
+            <div class="modal-actions" id="doc-modal-actions">
+              <button type="button" class="btn btn-danger-outline" id="btn-delete-doc-modal"
+                style="margin-right: auto;">Delete Document</button>
+              <button type="button" class="btn btn-secondary-outline" id="btn-cancel-edit">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="btn-save-doc">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Project Modal -->
+  <div class="modal-overlay hidden" id="project-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Create New Project</h3>
+        <button class="modal-close" id="project-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="add-project-form">
+          <div class="form-group">
+            <label for="new-project-name">Project Name <span class="required">*</span></label>
+            <input type="text" id="new-project-name" required placeholder="e.g. JOCL, Army Inventory">
+          </div>
+          <div class="form-group">
+            <label for="new-project-desc">Description</label>
+            <textarea id="new-project-desc" rows="2" placeholder="Optional project description..."></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary-outline" id="btn-cancel-project">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create Project</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Folder Modal -->
+  <div class="modal-overlay hidden" id="folder-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Create New Folder</h3>
+        <button class="modal-close" id="folder-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="add-folder-form">
+          <input type="hidden" id="folder-project-id">
+          <input type="hidden" id="folder-parent-id">
+          <div class="form-group">
+            <label>Project</label>
+            <strong id="folder-project-name" class="glowing-text"></strong>
+          </div>
+          <div class="form-group">
+            <label for="new-folder-name">Folder Name <span class="required">*</span></label>
+            <input type="text" id="new-folder-name" required placeholder="e.g. SRS, Testing, Deliverables">
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary-outline" id="btn-cancel-folder">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create Folder</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit User Modal -->
+  <div class="modal-overlay hidden" id="user-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="user-modal-title">Add New User</h3>
+        <button class="modal-close" id="user-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="user-form">
+          <input type="hidden" id="user-form-id">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label for="user-username">Username <span class="required">*</span></label>
+              <input type="text" id="user-username" required placeholder="e.g. john.doe">
+            </div>
+            <div class="form-group">
+              <label for="user-fullname">Full Name <span class="required">*</span></label>
+              <input type="text" id="user-fullname" required placeholder="e.g. John Doe">
+            </div>
+          </div>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label for="user-email">Email <span class="required">*</span></label>
+              <input type="email" id="user-email" required placeholder="john@example.com">
+            </div>
+            <div class="form-group">
+              <label for="user-role">Role <span class="required">*</span></label>
+              <select id="user-role">
+                <option value="viewer">Viewer (Read-only)</option>
+                <option value="editor">Editor (Upload/Edit)</option>
+                <option value="admin">Admin (Full Access)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group-row">
+            <div class="form-group">
+              <label for="user-password">Password <span id="pwd-req-label" class="required">*</span></label>
+              <input type="password" id="user-password" placeholder="Min. 6 characters">
+            </div>
+            <div class="form-group" id="user-status-group" style="display:none;">
+              <label for="user-active">Status</label>
+              <select id="user-active">
+                <option value="1">Active</option>
+                <option value="0">Deactivated</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary-outline" id="btn-cancel-user">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btn-save-user">Create User</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden">
+    <span id="toast-message"></span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <span>Developed by <strong>Sakhawat Rabbi</strong></span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
